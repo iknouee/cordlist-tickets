@@ -8,7 +8,7 @@ Bot and configuration messages use a consistent CordList embed theme with the bu
 
 - Node.js 24.x and npm
 - A Discord application and bot account
-- A Bot-Hosting server with Node.js 24 selected and persistent disk storage
+- A Wispbyte server with Node.js 24 selected and persistent disk storage
 
 ## Discord application setup
 
@@ -25,24 +25,24 @@ Bot and configuration messages use a consistent CordList embed theme with the bu
 4. Open the generated URL and invite the bot to your server. Place its role above any roles whose channel permissions it needs to manage.
 5. No privileged Gateway intents are required. The bot uses only the `Guilds` intent; it does not request message content or a member-list intent.
 
-## Bot-Hosting deployment
+## Wispbyte deployment
 
-1. Create a Node.js server in Bot-Hosting and select **Node.js 24** as its runtime.
-2. Upload the repository contents, including `package.json`, `package-lock.json`, and the `src` and `assets` directories. Do not upload `.env` or any real token to a public location.
-3. Set the server startup command to `npm start` (the package entry point is `src/index.js`). Install dependencies with `npm install` in the server console if the panel does not install them automatically.
-4. Add these environment variables in the host's startup/environment settings:
+1. Sign in to the [Wispbyte client](https://wispbyte.com/client) and create a dedicated server for this bot. Select the **Node.js 24** runtime/image. Wispbyte currently allows one Discord bot per server.
+2. In [Wispbyte GitHub Integration](https://wispbyte.com/client/github), connect the public repository `iknouee/cordlist-tickets`. Use branch `iknouee-discord-ticket-bot` (the repository's default branch), then clone/pull it onto the server. If GitHub Integration is unavailable in your server view, upload the repository files in the server's **Files** page instead. Include `package.json`, `package-lock.json`, `src`, and `assets`; do not upload `.env`.
+3. In the server's **Startup** settings, set the startup command to `npm start`. The entry point is `src/index.js`. The dependencies are already declared in `package.json`; install with `npm install` if the panel does not install them automatically.
+4. Add these variables in the server's **Startup / Environment Variables** settings:
 
    | Variable | Required | Value |
    | --- | --- | --- |
    | `DISCORD_TOKEN` | Yes | Bot token from the Developer Portal |
    | `DISCORD_CLIENT_ID` | Yes | Application ID from General Information |
    | `DISCORD_GUILD_ID` | No | Server ID for immediate guild-only command updates while testing |
-   | `DATA_DIR` | No | Persistent data directory; use `/home/container/data` on a standard Bot-Hosting container |
+   | `DATA_DIR` | No | Persistent data directory; defaults to `./data` inside the server files |
 
-5. Deploy slash commands once using `npm run deploy:commands` from the server console (or a local terminal with the same environment variables). Set `DISCORD_GUILD_ID` first for a test server; omit it to register globally, which can take time to propagate.
-6. Start the server with `npm start`. Check the console for `Ticket bot is online as ...`. Keep the `DATA_DIR` directory on persistent host storage so `state.json` and transcripts survive restarts.
+5. Register slash commands once by temporarily setting the startup command to `npm run deploy:commands` and starting the server. When the console says the command was registered, change the startup command back to `npm start`. Set `DISCORD_GUILD_ID` first for quick testing; omit it to register globally, which can take time to propagate. Alternatively, run the deployment command locally with the same environment variables.
+6. Start the server and check the console for `Ticket bot is online as ...`. Keep `DATA_DIR` on persistent storage so `state.json` and transcripts survive restarts.
 
-For local development, copy `.env.example` to `.env`, fill in the values privately, then run `npm install`, `npm run deploy:commands`, and `npm start`.
+For local development, copy `.env.example` to `.env`, fill in the values privately, then run `npm install`, `npm run deploy:commands`, and `npm start`. Wispbyte's free servers need a client-panel login at least once every two weeks to stay running.
 
 ## Configure the ticket system
 
