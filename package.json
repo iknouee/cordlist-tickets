@@ -1,0 +1,19 @@
+{
+  "name": "cordlist-tickets",
+  "version": "1.0.0",
+  "description": "A standalone Discord ticket bot with persistent ticket state and HTML transcripts.",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "deploy:commands": "node src/deploy-commands.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "discord.js": "^14.19.3",
+    "dotenv": "^16.4.7"
+  }
+}
