@@ -28,8 +28,8 @@ Bot and configuration messages use a consistent CordList embed theme with the bu
 ## Wispbyte deployment
 
 1. Sign in to the [Wispbyte client](https://wispbyte.com/client) and create a dedicated server for this bot. Select the **Node.js 24** runtime/image. Wispbyte currently allows one Discord bot per server.
-2. In [Wispbyte GitHub Integration](https://wispbyte.com/client/github), connect the public repository `iknouee/cordlist-tickets`. Use branch `iknouee-discord-ticket-bot` (the repository's default branch), then clone/pull it onto the server. If GitHub Integration is unavailable in your server view, upload the repository files in the server's **Files** page instead. Include `package.json`, `package-lock.json`, `src`, and `assets`; do not upload `.env`.
-3. In the server's **Startup** settings, set the startup command to `npm start`. The entry point is `src/index.js`. The dependencies are already declared in `package.json`; install with `npm install` if the panel does not install them automatically.
+2. In [Wispbyte GitHub Integration](https://wispbyte.com/client/github), connect the public repository `iknouee/cordlist-tickets`. Use branch `iknouee-discord-ticket-bot` (the repository's default branch), then clone/pull it onto the server. If GitHub Integration is unavailable in your server view, upload the repository files in the server's **Files** page instead. Include the root `index.js`, `package.json`, `package-lock.json`, `src`, and `assets`; do not upload `.env`.
+3. In the server's **Startup** settings, set the startup command to `npm start` or select root `index.js` if the panel asks for the main file. The root entry launches `src/index.js`. The dependencies are already declared in `package.json`; install with `npm install` if the panel does not install them automatically.
 4. Add these variables in the server's **Startup / Environment Variables** settings:
 
    | Variable | Required | Value |
