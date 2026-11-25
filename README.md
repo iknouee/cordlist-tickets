@@ -29,18 +29,19 @@ Bot and configuration messages use a consistent CordList embed theme with the bu
 
 1. Sign in to the [Wispbyte client](https://wispbyte.com/client) and create a dedicated server for this bot. Select the **Node.js 24** runtime/image. Wispbyte currently allows one Discord bot per server.
 2. In [Wispbyte GitHub Integration](https://wispbyte.com/client/github), connect the public repository `iknouee/cordlist-tickets`. Use branch `iknouee-discord-ticket-bot` (the repository's default branch), then clone/pull it onto the server. If GitHub Integration is unavailable in your server view, upload the repository files in the server's **Files** page instead. Include the root `index.js`, `package.json`, `package-lock.json`, `src`, and `assets`; do not upload `.env`.
-3. In the server's **Startup** settings, set the startup command to `npm start` or select root `index.js` if the panel asks for the main file. The root entry launches `src/index.js`. The dependencies are already declared in `package.json`; install with `npm install` if the panel does not install them automatically.
+3. In the server's **Startup** settings, set `JS_FILE` to `index.js`. Wispbyte's Node startup runs the JavaScript file named by `JS_FILE`; the root entry launches `src/index.js`. Dependencies are declared in `package.json`, so Wispbyte should install them automatically.
 4. Add these variables in the server's **Startup / Environment Variables** settings:
 
    | Variable | Required | Value |
    | --- | --- | --- |
+   | `JS_FILE` | Yes | `index.js` for the bot; use `src/deploy-commands.js` for one-time slash-command registration |
    | `DISCORD_TOKEN` | Yes | Bot token from the Developer Portal |
    | `DISCORD_CLIENT_ID` | Yes | Application ID from General Information |
    | `DISCORD_GUILD_ID` | No | Server ID for immediate guild-only command updates while testing |
    | `DATA_DIR` | No | Persistent data directory; defaults to `./data` inside the server files |
 
-5. Register slash commands once by temporarily setting the startup command to `npm run deploy:commands` and starting the server. When the console says the command was registered, change the startup command back to `npm start`. Set `DISCORD_GUILD_ID` first for quick testing; omit it to register globally, which can take time to propagate. Alternatively, run the deployment command locally with the same environment variables.
-6. Start the server and check the console for `Ticket bot is online as ...`. Keep `DATA_DIR` on persistent storage so `state.json` and transcripts survive restarts.
+5. Register slash commands once by setting `JS_FILE` to `src/deploy-commands.js` and starting the server. Wait for `Registered 1 slash command(s)` in the console; the deploy script exits afterward, so the server going offline is expected. Restore `JS_FILE` to `index.js` and start the bot again. Set `DISCORD_GUILD_ID` first for quick testing; omit it to register globally, which can take time to propagate. Alternatively, run `npm run deploy:commands` locally with the same environment variables.
+6. Check the console for `Ticket bot is online as ...`. Keep `DATA_DIR` on persistent storage so `state.json` and transcripts survive restarts.
 
 For local development, copy `.env.example` to `.env`, fill in the values privately, then run `npm install`, `npm run deploy:commands`, and `npm start`. Wispbyte's free servers need a client-panel login at least once every two weeks to stay running.
 
